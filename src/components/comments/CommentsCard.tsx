@@ -5,7 +5,7 @@ export default function CommentsCard(props: CommentsProps) {
   const { content, id, user } = props;
 
   return (
-    <div className={`border-b space-y-6 w-full mb-6`}>
+    <div className={`border-b space-y-6 w-full mb-6 ]`}>
       <div className="flex gap-x-4 w-full mb-6">
         <div>
           <img className="rounded-full h-10 w-10" src={user.image} alt="" />
@@ -19,7 +19,7 @@ export default function CommentsCard(props: CommentsProps) {
             <h1 className="text-[#4661e6] cursor-pointer duration-300 font-bold hover:underline">Reply</h1>
           </div>
           <div>
-            <p>{content}</p>
+            <p className="break-words w-[600px]">{content}</p>
           </div>
         </div>
       </div>

@@ -1,17 +1,22 @@
-import React from "react";
+import React, { useState } from "react";
 import { FaChevronLeft } from "react-icons/fa6";
 import Header from "./Header";
 import CardHeader from "./CardHeader";
 import { ProductRequestsProps } from "../../App";
 import { useParams } from "react-router-dom";
 import CommentCard from "./CommentCard";
+import AddComments from "./AddComments";
 
 export interface CommentProps {
   filteredData: ProductRequestsProps[];
-  handleCounter: (value: number) => void
+  handleCounter: (value: number) => void;
+  addComments: (value: number) => void;
+  setContentInputField: (value: string) => void;
+  contentInputField: string
 }
 export default function Comment(props: CommentProps) {
-  const { filteredData, handleCounter } = props;
+  const { filteredData, handleCounter, addComments, setContentInputField, contentInputField } =
+    props;
   const { id } = useParams();
 
   const singleData = filteredData.filter((item) => {
@@ -23,7 +28,13 @@ export default function Comment(props: CommentProps) {
     <section className="max-w-[800px] space-y-4 mx-auto py-[60px] w-full">
       <Header />
       <CardHeader handleCounter={handleCounter} object={object} />
-      <CommentCard object={object}/>
+      <CommentCard object={object} />
+      <AddComments
+      contentInputField={contentInputField}
+        setContentInputField={setContentInputField}
+        addComments={addComments}
+        object={object}
+      />
     </section>
   );
 }
