@@ -17,7 +17,7 @@ export default function NavHeader({ productData, setProductData }: any) {
       setProductData([...productData.productRequests]?.sort((a: any, b: any) => a.upvotes - b.upvotes))
     }
   }
-  console.log(productData)
+  // console.log(productData)
 
 
   const numberOfSuggestions = productData.productRequests?.filter(
@@ -27,7 +27,7 @@ export default function NavHeader({ productData, setProductData }: any) {
 
 
   return (
-    <nav className="border bg-[#373f68] flex justify-between items-center py-3 px-6 text-white rounded-lg">
+    <nav className="border bg-[#373f68] h flex justify-between items-center py-3 px-6 text-white rounded-lg">
       <div className="flex items-center gap-8">
         <div className="flex gap-3">
           <img
