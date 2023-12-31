@@ -6,6 +6,7 @@ import { ProductRequestsProps } from "../../App";
 import { useParams } from "react-router-dom";
 import CommentCard from "./CommentCard";
 import AddComments from "./AddComments";
+import EditCommentModal from "./EditCommentModal";
 
 export interface CommentProps {
   filteredData: ProductRequestsProps[];
@@ -15,9 +16,11 @@ export interface CommentProps {
   contentInputField: string
 }
 export default function Comment(props: CommentProps) {
+
   const { filteredData, handleCounter, addComments, setContentInputField, contentInputField } =
     props;
   const { id } = useParams();
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false)
 
   const singleData = filteredData.filter((item) => {
     return item.id === parseInt(id!);
@@ -26,7 +29,7 @@ export default function Comment(props: CommentProps) {
 
   return (
     <section className="max-w-[800px] space-y-4 mx-auto py-[60px] w-full">
-      <Header />
+      <Header setIsModalOpen={setIsModalOpen} />
       <CardHeader handleCounter={handleCounter} object={object} />
       <CommentCard object={object} />
       <AddComments
@@ -35,6 +38,10 @@ export default function Comment(props: CommentProps) {
         addComments={addComments}
         object={object}
       />
+      {isModalOpen && (
+        <EditCommentModal  setIsModalOpen={setIsModalOpen}/>
+      )}
+      
     </section>
   );
 }
