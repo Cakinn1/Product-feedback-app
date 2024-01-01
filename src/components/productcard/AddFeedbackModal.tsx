@@ -1,43 +1,48 @@
-import React from 'react'
-import Header from '../comments/Header'
+import React from "react";
+import Header from "../comments/Header";
+import { FaChevronLeft } from "react-icons/fa6";
+import FeedbackHeader from "./FeedbackHeader";
+import FeedbackMain from "./FeedbackMain";
 
 interface AddFeedbackModalProps {
-    setIsModalOpen: (value: boolean) => void
+  setIsModalOpen: (value: boolean) => void;
+  createNewFeedback: () => void;
+  titleInput: string;
+  categoryInput: string;
+  inputDescription: string;
+  setInputDescription: (value: string) => void;
+  setTitleInput: (value: string) => void;
+  setCategoryInput: (value: string) => void;
 }
 
-export default function AddFeedbackModal(props: AddFeedbackModalProps ) {
-    const {setIsModalOpen} = props
+export default function AddFeedbackModal(props: AddFeedbackModalProps) {
+  const {
+    setIsModalOpen,
+    createNewFeedback,
+    categoryInput,
+    inputDescription,
+    titleInput,
+    setCategoryInput,
+    setInputDescription,
+    setTitleInput,
+  } = props;
   return (
-    <div className="absolute z-50 bg-[#f2f4ff] w-full h-full top-0 left-0">
-    <div className="max-w-[500px] space-y-6  mx-auto pt-[100px]">
-    {/* <div className="flex  mb-10 justify-between items-center text-sm">
-      <Link
-        to="/"
-        className="flex hover:brightness-150 duration-300 items-center gap-x-2"
-      >
-        <FaChevronLeft className="text-[10px] text-[#4661E6]" />
-        <h1
-          onClick={() => {
-            setFilteredData(
-              filteredData.filter((item) => item.status === "suggestion")
-            );
-          }}
-          className="text-[#647196] "
-        >
-          Go Back
-        </h1>
-      </Link>
-      <button
-        onClick={() => setIsModalOpen(true)}
-        className="text-white font-semibold bg-[#4661e6] px-6 py-3 hover:brightness-150 duration-300 rounded-md"
-      >
-        Edit Feedback
-      </button>
-    </div> */}
-      <div>
-    
+    <div className="absolute z-50  bg-[#f2f4ff] w-full h-full top-0 left-0">
+      <div className="max-w-[500px]  space-y-6  mx-auto pt-[100px]">
+        <FeedbackHeader setIsModalOpen={setIsModalOpen} />
+        <div>
+          <FeedbackMain
+          setIsModalOpen={setIsModalOpen}
+            setInputDescription={setInputDescription}
+            setTitleInput={setTitleInput}
+            setCategoryInput={setCategoryInput}
+            titleInput={titleInput}
+            categoryInput={categoryInput}
+            inputDescription={inputDescription}
+            createNewFeedback={createNewFeedback}
+          />
+        </div>
       </div>
     </div>
-  </div>
-  )
+  );
 }

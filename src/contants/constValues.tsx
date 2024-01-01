@@ -1,6 +1,5 @@
 import { SortListItemProps } from "../typings/typings";
 
-
 export const sortListItem: SortListItemProps[] = [
   {
     listAction: "Most Upvotes",
@@ -14,4 +13,12 @@ export const sortListItem: SortListItemProps[] = [
   {
     listAction: "Least Comments",
   },
+];
+
+export const categoryValues: string[] = [
+  "Feature",
+  "UI",
+  "UX",
+  "Enchancement",
+  "Bug",
 ];

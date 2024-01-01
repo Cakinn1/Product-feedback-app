@@ -4,6 +4,7 @@ import FeedBack from "./pages/FeedBack";
 import Home from "./pages/Home";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import data from "./contants/data.json";
+import RoadmapMain from "./components/roadmap/RoadmapMain";
 
 interface CurrentUserProps {
   image: string;
@@ -197,14 +198,46 @@ export default function App() {
     setFilteredData(deleteItem);
   }
 
+  const [feedbackCounter, setFeedbackCounter] = useState<number>(13);
+  function createNewFeedback() {
+    const newFeedback: ProductRequestsProps = {
+      category: categoryInput,
+      description: inputDesription,
+      id: feedbackCounter,
+      status: "suggestion",
+      title: titleInput,
+      upvotes: 0,
+      comments: [],
+    };
+
+    setFeedbackCounter(feedbackCounter + 1);
+
+    setProductData({
+      ...productData,
+      productRequests: [...productData.productRequests, newFeedback],
+    });
+    setFilteredData((prevData) => {
+      return prevData.concat(newFeedback);
+    });
+  }
+
+  console.log(productData, filteredData);
+
   return (
-    <div className="relative">
+    <div className="relative ">
       <Router>
         <Routes>
           <Route
             path="/"
             element={
               <Home
+                setInputDescription={setInputDescription}
+                setTitleInput={setTitleInput}
+                setCategoryInput={setCategoryInput}
+                titleInput={titleInput}
+                categoryInput={categoryInput}
+                inputDescription={inputDesription}
+                createNewFeedback={createNewFeedback}
                 handleCounter={handleCounter}
                 filteredData={filteredData}
                 setProductData={setProductData}
@@ -240,6 +273,7 @@ export default function App() {
             }
           />
           <Route path="/feedback/add" element={<FeedBack />} />
+          <Route path="/roadmap" element={<RoadmapMain />} />
         </Routes>
       </Router>
     </div>

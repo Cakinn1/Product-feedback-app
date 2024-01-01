@@ -10,10 +10,29 @@ interface HomeProps {
   filteredData: ProductRequestsProps[];
   setProductData: (value: MainProps) => void;
   handleCounter: (value: number) => void;
+  createNewFeedback: () => void;
+  titleInput: string;
+  categoryInput: string;
+  inputDescription: string;
+  setInputDescription: (value: string) => void;
+  setTitleInput: (value: string) => void;
+  setCategoryInput: (value: string) => void;
 }
 
 export default function Home(props: HomeProps) {
-  const { filteredData, productData, setProductData, handleCounter } = props;
+  const {
+    filteredData,
+    productData,
+    setProductData,
+    handleCounter,
+    createNewFeedback,
+    categoryInput,
+    inputDescription,
+    titleInput,
+    setCategoryInput,
+    setInputDescription,
+    setTitleInput,
+  } = props;
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
   return (
@@ -22,7 +41,18 @@ export default function Home(props: HomeProps) {
 
       <div className="max-w-[855px] mx-auto  w-full">
         <button onClick={() => setIsModalOpen(true)}>+ Add Feedback</button>
-        {isModalOpen && <AddFeedbackModal setIsModalOpen={setIsModalOpen} />}
+        {isModalOpen && (
+          <AddFeedbackModal
+            setInputDescription={setInputDescription}
+            setTitleInput={setTitleInput}
+            setCategoryInput={setCategoryInput}
+            titleInput={titleInput}
+            categoryInput={categoryInput}
+            inputDescription={inputDescription}
+            createNewFeedback={createNewFeedback}
+            setIsModalOpen={setIsModalOpen}
+          />
+        )}
 
         {/* <NavHeader setProductData={setProductData} productData={productData} /> */}
         <div className="space-y-5 mt-5">
