@@ -46,6 +46,7 @@ export default function Main(props: MainProps) {
   const navigate = useNavigate();
 
   useEffect(() => {
+    setStatusInput(object.status)
     setCategoryInput(object.category);
     setInputDescription(object.description);
   }, []);
