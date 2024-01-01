@@ -96,7 +96,7 @@ export default function App() {
     const updateCounter = filteredData.map((item) => {
       return item.id === id ? { ...item, upvotes: item.upvotes + 1 } : item;
     });
-    setFilteredData(updateCounter)
+    setFilteredData(updateCounter);
   }
 
   function handleTitleChange(id: number) {

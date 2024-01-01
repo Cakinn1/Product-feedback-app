@@ -28,7 +28,7 @@ export interface CommentProps {
   handleDescriptionChange: (value: number) => void;
   setInputDescription: (value: string) => void;
   inputDescription: string;
-  handleDeletion: (value: number) => void
+  handleDeletion: (value: number) => void;
 }
 export default function Comment(props: CommentProps) {
   const {
@@ -80,7 +80,7 @@ export default function Comment(props: CommentProps) {
       />
       {isModalOpen && (
         <EditCommentModal
-        handleDeletion={handleDeletion}
+          handleDeletion={handleDeletion}
           inputDescription={inputDescription}
           setInputDescription={setInputDescription}
           handleDescriptionChange={handleDescriptionChange}
