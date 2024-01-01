@@ -22,7 +22,7 @@ export default function Home(props: HomeProps) {
       <div className="max-w-[855px] mx-auto  w-full">
         {/* <NavHeader setProductData={setProductData} productData={productData} /> */}
         <div className="space-y-5 mt-5">
-          {filteredData.map((data) => {
+          {filteredData?.map((data) => {
             return (
               <FeaturesCard
                 handleCounter={handleCounter}

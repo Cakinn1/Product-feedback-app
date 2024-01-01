@@ -14,6 +14,7 @@ export default function AddComments(props: AddCommentsProps) {
 
   function handleChange(e: React.ChangeEvent<HTMLTextAreaElement>) {
     const inputValue = e.target.value;
+    e.preventDefault()
     if (inputValue.length <= maxCharacters) {
       setContentInputField(inputValue);
     }
