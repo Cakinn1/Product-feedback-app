@@ -4,6 +4,7 @@ import NavHeader from "../components/NavHeader";
 import NavHeaderLeft from "../components/NavHeaderLeft";
 import { MainProps, ProductRequestsProps } from "../App";
 import AddFeedbackModal from "../components/productcard/AddFeedbackModal";
+import { useNavigate } from "react-router-dom";
 
 interface HomeProps {
   productData: MainProps;
@@ -17,6 +18,8 @@ interface HomeProps {
   setInputDescription: (value: string) => void;
   setTitleInput: (value: string) => void;
   setCategoryInput: (value: string) => void;
+  isModalOpen: boolean;
+  setIsModalOpen: (value: boolean) => void;
 }
 
 export default function Home(props: HomeProps) {
@@ -32,15 +35,19 @@ export default function Home(props: HomeProps) {
     setCategoryInput,
     setInputDescription,
     setTitleInput,
+    isModalOpen,
+    setIsModalOpen,
   } = props;
-  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
-
+  const navigate = useNavigate();
   return (
     <section className="max-w-[1100px] gap-x-[20px]  mx-auto py-32 flex">
       <NavHeaderLeft />
 
       <div className="max-w-[855px] mx-auto  w-full">
         <button onClick={() => setIsModalOpen(true)}>+ Add Feedback</button>
+        <button className="ml-10" onClick={() => navigate("/roadmap")}>
+          roadmap
+        </button>
         {isModalOpen && (
           <AddFeedbackModal
             setInputDescription={setInputDescription}

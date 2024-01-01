@@ -2,13 +2,14 @@ import React, { useState } from "react";
 import { FaChevronLeft } from "react-icons/fa6";
 import Header from "./Header";
 import CardHeader from "./CardHeader";
-import { ProductRequestsProps } from "../../App";
+import { MainProps, ProductRequestsProps } from "../../App";
 import { useParams } from "react-router-dom";
 import CommentCard from "./CommentCard";
 import AddComments from "./AddComments";
 import EditCommentModal from "./EditCommentModal";
 
 export interface CommentProps {
+  productData: MainProps;
   filteredData: ProductRequestsProps[];
   handleCounter: (value: number) => void;
   addComments: (value: number) => void;
@@ -52,11 +53,12 @@ export default function Comment(props: CommentProps) {
     setInputDescription,
     handleDescriptionChange,
     inputDescription,
+    productData,
   } = props;
   const { id } = useParams();
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
-  const singleData = filteredData.filter((item) => {
+  const singleData = productData.productRequests.filter((item) => {
     return item.id === parseInt(id!);
   });
   const object = singleData[0];

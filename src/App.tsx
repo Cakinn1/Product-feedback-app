@@ -94,24 +94,36 @@ export default function App() {
 
   // later make sure the current user can only like once
   function handleCounter(id: number) {
-    const updateCounter = filteredData.map((item) => {
-      return item.id === id ? { ...item, upvotes: item.upvotes + 1 } : item;
+    setProductData((prevData) => {
+      const updateCounter = prevData.productRequests.map((item) => {
+        return item.id === id ? { ...item, upvotes: item.upvotes + 1 } : item;
+      });
+
+      setFilteredData(
+        updateCounter.filter((item) => item.status === "suggestion")
+      );
+
+      return {
+        ...prevData,
+        productRequests: updateCounter,
+      };
     });
-    setFilteredData(updateCounter);
   }
 
   function handleTitleChange(id: number) {
-    setFilteredData((prevData) => {
-      return prevData.map((item) => {
-        if (item.id === id) {
-          return {
-            ...item,
-            title: titleInput,
-          };
-        } else {
-          return item;
-        }
+    setProductData((prevData) => {
+      const updateTitle = prevData.productRequests.map((item) => {
+        return item.id === id ? { ...item, title: titleInput } : item;
       });
+
+      setFilteredData(
+        updateTitle.filter((item) => item.status === "suggestion")
+      );
+
+      return {
+        ...prevData,
+        productRequests: updateTitle,
+      };
     });
   }
 
@@ -125,6 +137,10 @@ export default function App() {
   }
 
   function handleChangeStatus(id: number) {
+
+
+    
+
     setFilteredData((prevData) => {
       return prevData.map((item) => {
         if (item.id === id) {
@@ -220,8 +236,11 @@ export default function App() {
       return prevData.concat(newFeedback);
     });
   }
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
-  console.log(productData, filteredData);
+  useEffect(() => {
+    console.log(productData, filteredData);
+  }, [productData]);
 
   return (
     <div className="relative ">
@@ -231,6 +250,8 @@ export default function App() {
             path="/"
             element={
               <Home
+                setIsModalOpen={setIsModalOpen}
+                isModalOpen={isModalOpen}
                 setInputDescription={setInputDescription}
                 setTitleInput={setTitleInput}
                 setCategoryInput={setCategoryInput}
@@ -249,6 +270,7 @@ export default function App() {
             path="/comment/:id"
             element={
               <Comment
+                productData={productData}
                 handleDeletion={handleDeletion}
                 inputDescription={inputDesription}
                 setInputDescription={setInputDescription}
@@ -273,7 +295,16 @@ export default function App() {
             }
           />
           <Route path="/feedback/add" element={<FeedBack />} />
-          <Route path="/roadmap" element={<RoadmapMain />} />
+          <Route
+            path="/roadmap"
+            element={
+              <RoadmapMain
+                productData={productData}
+                setProductData={setProductData}
+                setIsModalOpen={setIsModalOpen}
+              />
+            }
+          />
         </Routes>
       </Router>
     </div>
