@@ -23,8 +23,8 @@ interface HomeProps {
   liveProductData: ProductRequestsProps[];
   plannedData: ProductRequestsProps[];
   inProgressData: ProductRequestsProps[];
-  handleSortNav: (value: string) => void
-
+  handleSortNav: (value: string) => void;
+  handleSort: (value: string) => void;
 }
 
 export default function Home(props: HomeProps) {
@@ -45,13 +45,14 @@ export default function Home(props: HomeProps) {
     inProgressData,
     liveProductData,
     plannedData,
-    handleSortNav
+    handleSortNav,
+    handleSort,
   } = props;
   const navigate = useNavigate();
   return (
     <section className="max-w-[1100px] gap-x-[20px]  mx-auto py-32 flex">
       <NavHeaderLeft
-      handleSortNav={handleSortNav}
+        handleSortNav={handleSortNav}
         plannedData={plannedData}
         inProgressData={inProgressData}
         liveProductData={liveProductData}
@@ -59,10 +60,6 @@ export default function Home(props: HomeProps) {
       />
 
       <div className="max-w-[855px] mx-auto  w-full">
-        <button onClick={() => setIsModalOpen(true)}>+ Add Feedback</button>
-        <button className="ml-10" onClick={() => navigate("/roadmap")}>
-          roadmap
-        </button>
         {isModalOpen && (
           <AddFeedbackModal
             setInputDescription={setInputDescription}
@@ -76,7 +73,12 @@ export default function Home(props: HomeProps) {
           />
         )}
 
-        {/* <NavHeader setProductData={setProductData} productData={productData} /> */}
+        <NavHeader
+          handleSort={handleSort}
+          setIsModalOpen={setIsModalOpen}
+          setProductData={setProductData}
+          productData={productData}
+        />
         <div className="space-y-5 mt-5">
           {filteredData?.map((data) => {
             return (

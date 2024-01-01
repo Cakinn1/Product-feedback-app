@@ -2,29 +2,34 @@ import React, { useState } from "react";
 import { Products } from "../typings/typings";
 import Button from "./ui/NavHeader/Button";
 import Sort from "./ui/NavHeader/Sort";
-import data from "../contants/data.json"
+import data from "../contants/data.json";
+import { MainProps } from "../App";
+import { FaChevronCircleDown } from "react-icons/fa";
+import { FaChevronDown } from "react-icons/fa6";
+import SortingModal from "./roadmap/SortingModal";
 
-export default function NavHeader({ productData, setProductData }: any) {
-  const [helperFilter, setHelperFilter] = useState<any>(data)
-  const [selection, setSelection] = useState<string>("");
+interface NavHeaderProps {
+  productData: MainProps;
+  setProductData: (value: MainProps) => void;
+  setIsModalOpen: (value: boolean) => void;
+  handleSort: (value: string) => void;
+}
 
-  function storeCurrentSelect(value: string) {
-    setSelection(value);
+export default function NavHeader(props: NavHeaderProps) {
+  const { productData, setProductData, setIsModalOpen, handleSort } = props;
+  const [modalOpen, setModalOpen] = useState<boolean>(false);
+  const [select, setSelect] = useState<string>('Most Upvotes')
 
-    if(selection === 'Most Upvotes') {
-      setProductData([...productData.productRequests]?.sort((a: any, b:any) => b.upvotes - a.upvotes))
-    } else if (selection === 'Least Upvotes') {
-      setProductData([...productData.productRequests]?.sort((a: any, b: any) => a.upvotes - b.upvotes))
-    }
-  }
-  // console.log(productData)
+  const numberOfSuggestions = productData.productRequests.filter((item) => {
+    return item.status === "suggestion";
+  });
 
-
-  const numberOfSuggestions = productData.productRequests?.filter(
-    (item: any) => item.status === "suggestion"
-  ).length;
-
-
+  const textValue: string[] = [
+    "Most Upvotes",
+    "Least Upvotes",
+    "Most Comments",
+    "Least Comments",
+  ];
 
   return (
     <nav className="border bg-[#373f68] h flex justify-between items-center py-3 px-6 text-white rounded-lg">
@@ -35,21 +40,36 @@ export default function NavHeader({ productData, setProductData }: any) {
             alt="suggestion icon"
           />
           <span className="font-bold text-[18px]">
-            {numberOfSuggestions} Suggestions
+            {numberOfSuggestions.length} Suggestions
           </span>
         </div>
-          <Sort selection={selection} setSelection={setSelection} storeCurrentSelect={storeCurrentSelect} />
+        <div
+          onClick={() => setModalOpen(!modalOpen)}
+          className="flex cursor-pointer relative gap-x-4"
+        >
+          <h1 className="text-sm">Sort By:</h1>
+          <div className="flex items-center gap-x-4">
+            <p className="font-bold">{select}</p>
+            <FaChevronDown className="text-sm" />
+          </div>
+          {modalOpen && (
+            <div className="absolute p-2 -bottom-[200px] px-4 z-50 space-y-2 rounded-md text-black bg-white w-[200px] ">
+              {textValue.map((item, index) => (
+                <SortingModal setSelect={setSelect} key={index} text={item} handleSort={handleSort} />
+              ))}
+            </div>
+          )}
+        </div>
       </div>
 
-      {productData?.productRequests?.map((item: any) => {
-        return <h1>{item.upvotes}</h1>
-      })}
-
-      <Button
-        linkTo="/feedback/add"
-        textValue="Add Feedback"
-        backgroundValue="#AD1FEA"
-      />
+      <button
+        onClick={() => {
+          setIsModalOpen(true);
+        }}
+        className="bg-[#ad1fea] text-sm px-6 font-semibold py-3 rounded-lg"
+      >
+        + Add Feedback
+      </button>
     </nav>
   );
 }

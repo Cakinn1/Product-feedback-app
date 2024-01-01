@@ -2,6 +2,7 @@ import React from "react";
 import NavRoadmap from "./ui/NavHeader/NavRoadmap";
 import { MainProps, ProductRequestsProps } from "../App";
 import NavSortLeft from "./ui/NavHeader/NavSortLeft";
+import Logo from "./ui/NavHeader/Logo";
 
 interface NavProps {
   productData: MainProps;
@@ -17,10 +18,8 @@ export default function NavHeaderLeft(props: NavProps) {
   handleSortNav } = props;
   return (
     <section className="max-w-[255px] space-y-4 w-full">
-      <h1>d</h1>
-
+      <Logo />
       <NavSortLeft handleSortNav={handleSortNav} />
-
       <NavRoadmap
         plannedData={plannedData}
         inProgressData={inProgressData}

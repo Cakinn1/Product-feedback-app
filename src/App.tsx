@@ -271,9 +271,40 @@ export default function App() {
     }
   }
 
+  function handleSort(text: string) {
+    const defaultFilter = productData.productRequests
+      .slice()
+      .filter((item) => item.status === "suggestion");
+
+    switch (text) {
+      case "Most Upvotes":
+        setFilteredData(defaultFilter.sort((a, b) => b.upvotes - a.upvotes));
+        break;
+      case "Least Upvotes":
+        setFilteredData(defaultFilter.sort((a, b) => a.upvotes - b.upvotes));
+        break;
+      case "Most Comments":
+        setFilteredData(
+          defaultFilter.sort(
+            (a, b) => (b.comments?.length || 0) - (a.comments?.length || 0)
+          )
+        );
+        break;
+      case "Least Comments":
+        setFilteredData(
+          defaultFilter.sort(
+            (a, b) => (a.comments?.length || 0) - (b.comments?.length || 0)
+          )
+        );
+        break;
+      default:
+        break;
+    }
+  }
+
   useEffect(() => {
-    console.log(productData, filteredData);
-  }, [productData]);
+    handleSort("Most Upvotes");
+  }, []);
 
   return (
     <div className="relative ">
@@ -283,6 +314,7 @@ export default function App() {
             path="/"
             element={
               <Home
+                handleSort={handleSort}
                 handleSortNav={handleSortNav}
                 plannedData={plannedData}
                 inProgressData={inProgressData}
@@ -331,7 +363,7 @@ export default function App() {
               />
             }
           />
-          <Route path="/feedback/add" element={<FeedBack />} />
+          {/* <Route path="/feedback/add" element={<FeedBack />} /> */}
           <Route
             path="/roadmap"
             element={
