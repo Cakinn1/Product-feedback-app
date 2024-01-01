@@ -45,8 +45,18 @@ export default function App() {
   const [titleInput, setTitleInput] = useState<string>("");
   const [inputDesription, setInputDescription] = useState<string>("");
   const [counter, setCounter] = useState<number>(10);
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [filteredData, setFilteredData] = useState<ProductRequestsProps[]>(
     productData.productRequests.filter((item) => item.status === "suggestion")
+  );
+  const plannedData = productData.productRequests.filter(
+    (item) => item.status === "planned"
+  );
+  const inProgressData = productData.productRequests.filter(
+    (item) => item.status === "in-progress"
+  );
+  const liveProductData = productData.productRequests.filter(
+    (item) => item.status === "live"
   );
 
   function addComments(id: number) {
@@ -64,19 +74,28 @@ export default function App() {
       },
     };
     setCounter(counter + 1);
-    const updateComments = filteredData.map((item) => {
-      if (item.id === id) {
-        return {
-          ...item,
-          comments: item.comments
-            ? [...item.comments, newComment]
-            : [newComment],
-        };
-      } else {
-        return item;
-      }
+
+    setProductData((prevData) => {
+      const updateComments = prevData.productRequests.map((item) => {
+        return item.id === id
+          ? {
+              ...item,
+              comments: item.comments
+                ? [...item.comments, newComment]
+                : [newComment],
+            }
+          : item;
+      });
+
+      setFilteredData(
+        updateComments.filter((item) => item.status === "suggestion")
+      );
+
+      return {
+        ...prevData,
+        productRequests: updateComments,
+      };
     });
-    setFilteredData(updateComments);
     setContentInputField("");
   }
 
@@ -127,44 +146,34 @@ export default function App() {
     });
   }
 
-  function uniqueCategory() {
-    const currentCategories = productData.productRequests.map((item) => {
-      return item.category;
-    });
-    const hashSet = new Set([...currentCategories]);
-    const uniqueCategoryArray = Array.from(hashSet);
-    // console.log(uniqueCategoryArray, data);
-  }
+  // function uniqueCategory() {
+  //   const currentCategories = productData.productRequests.map((item) => {
+  //     return item.category;
+  //   });
+  //   const hashSet = new Set([...currentCategories]);
+  //   const uniqueCategoryArray = Array.from(hashSet);
+  //   // console.log(uniqueCategoryArray, data);
+  // }
+
+  // useEffect(() => {
+  // uniqueCategory();
+  // }, []);
 
   function handleChangeStatus(id: number) {
-
-
-    
-
-    setFilteredData((prevData) => {
-      return prevData.map((item) => {
-        if (item.id === id) {
-          return {
-            ...item,
-            status: statusInput,
-          };
-        } else {
-          return item;
-        }
+    setProductData((prevData) => {
+      const updateStatus = prevData.productRequests.map((item) => {
+        return item.id === id ? { ...item, status: statusInput } : item;
       });
-    });
-    const updateStatus = filteredData.map((item) => {
-      if (item.id === id) {
-        return {
-          ...item,
-          status: statusInput,
-        };
-      } else {
-        return item;
-      }
-    });
 
-    setFilteredData(updateStatus);
+      setFilteredData(
+        updateStatus.filter((item) => item.status === "suggestion")
+      );
+
+      return {
+        ...prevData,
+        productRequests: updateStatus,
+      };
+    });
   }
 
   function handleFeedbackSave() {
@@ -173,37 +182,38 @@ export default function App() {
     );
   }
 
-  useEffect(() => {
-    uniqueCategory();
-  }, []);
-
   function handleCategoryChange(id: number) {
-    setFilteredData((prevData) => {
-      return prevData.map((item) => {
-        if (item.id === id) {
-          return {
-            ...item,
-            category: categoryInput,
-          };
-        } else {
-          return item;
-        }
+    setProductData((prevData) => {
+      const updateCategory = prevData.productRequests.map((item) => {
+        return item.id === id ? { ...item, category: categoryInput } : item;
       });
+      setFilteredData(
+        updateCategory.filter((item) => item.status === "suggestion")
+      );
+
+      return {
+        ...prevData,
+        productRequests: updateCategory,
+      };
     });
   }
 
   function handleDescriptionChange(id: number) {
-    setFilteredData((prevData) => {
-      return prevData.map((item) => {
-        if (item.id === id) {
-          return {
-            ...item,
-            description: inputDesription,
-          };
-        } else {
-          return item;
-        }
+    setProductData((prevData) => {
+      const updateDescription = prevData.productRequests.map((item) => {
+        return item.id === id
+          ? { ...item, description: inputDesription }
+          : item;
       });
+
+      setFilteredData(
+        updateDescription.filter((item) => item.status === "suggestion")
+      );
+
+      return {
+        ...prevData,
+        productRequests: updateDescription,
+      };
     });
   }
 
@@ -236,7 +246,30 @@ export default function App() {
       return prevData.concat(newFeedback);
     });
   }
-  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+
+  function handleSortNav(text: string) {
+    const defaultFilter = productData.productRequests
+      .slice()
+      .filter((item) => item.status === "suggestion");
+
+    if (text === "All") {
+      setFilteredData(defaultFilter);
+    } else if (text === "bug") {
+      setFilteredData(defaultFilter.filter((item) => item.category === "bug"));
+    } else if (text === "feature") {
+      setFilteredData(
+        defaultFilter.filter((item) => item.category === "feature")
+      );
+    } else if (text === "enhancement") {
+      setFilteredData(
+        defaultFilter.filter((item) => item.category === "enhancement")
+      );
+    } else if (text === "UI") {
+      setFilteredData(defaultFilter.filter((item) => item.category === "UI"));
+    } else if (text === "UX") {
+      setFilteredData(defaultFilter.filter((item) => item.category === "UX"));
+    }
+  }
 
   useEffect(() => {
     console.log(productData, filteredData);
@@ -250,6 +283,10 @@ export default function App() {
             path="/"
             element={
               <Home
+                handleSortNav={handleSortNav}
+                plannedData={plannedData}
+                inProgressData={inProgressData}
+                liveProductData={liveProductData}
                 setIsModalOpen={setIsModalOpen}
                 isModalOpen={isModalOpen}
                 setInputDescription={setInputDescription}
@@ -299,6 +336,9 @@ export default function App() {
             path="/roadmap"
             element={
               <RoadmapMain
+                plannedData={plannedData}
+                inProgressData={inProgressData}
+                liveProductData={liveProductData}
                 productData={productData}
                 setProductData={setProductData}
                 setIsModalOpen={setIsModalOpen}

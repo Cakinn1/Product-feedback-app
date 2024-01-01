@@ -63,7 +63,6 @@ export default function Comment(props: CommentProps) {
   });
   const object = singleData[0];
 
-  console.log(object);
 
   return (
     <section className="max-w-[800px] space-y-4 mx-auto py-[60px] w-full">

@@ -21,7 +21,7 @@ export default function CardInfo(props: CardInfoProps) {
       </div>
       <div className="flex justify-end gap-x-2 flex-1 items-center">
         <FaComment className="text-lg text-[#CDD2EE]"/>
-        <span className="font-bold">{commentsLength}</span>
+        <span className="font-bold">{commentsLength ? commentsLength : "0"}</span>
       </div>
     </div>
   );

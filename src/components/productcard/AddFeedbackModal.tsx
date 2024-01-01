@@ -32,7 +32,7 @@ export default function AddFeedbackModal(props: AddFeedbackModalProps) {
         <FeedbackHeader setIsModalOpen={setIsModalOpen} />
         <div>
           <FeedbackMain
-          setIsModalOpen={setIsModalOpen}
+            setIsModalOpen={setIsModalOpen}
             setInputDescription={setInputDescription}
             setTitleInput={setTitleInput}
             setCategoryInput={setCategoryInput}

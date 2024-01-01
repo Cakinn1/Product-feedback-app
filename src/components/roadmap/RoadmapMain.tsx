@@ -8,24 +8,25 @@ interface RoadmapMainProps {
   setIsModalOpen: (value: boolean) => void;
   productData: MainProps;
   setProductData: (value: MainProps) => void;
+  liveProductData: ProductRequestsProps[];
+  plannedData: ProductRequestsProps[];
+  inProgressData: ProductRequestsProps[];
 }
 
 export default function RoadmapMain(props: RoadmapMainProps) {
-  const { setIsModalOpen, productData, setProductData } = props;
+  const {
+    setIsModalOpen,
+    productData,
+    setProductData,
+    inProgressData,
+    liveProductData,
+    plannedData,
+  } = props;
   // const [amountToMap, setAmountToMap] = useState(productData.productRequests.map((item) => item.status ))
   // console.log(amountToMap.filter((item) => item !== "suggestion" ))
 
   // console.log(productData.productRequests.filter((item) => item.status === "planned"))
   // console.log(productData.productRequests.filter((item) => item.status === "in-progress"))
-
-  const plannedData = productData.productRequests.filter((item) => item.status === "planned")
-
-  const inProgressData = productData.productRequests.filter(
-    (item) => item.status === "in-progress"
-  );
-  const liveProductData = productData.productRequests.filter(
-    (item) => item.status === "live"
-  );
 
   function handleCounter(id: number) {
     const updateCounter = productData.productRequests.map((item) => {

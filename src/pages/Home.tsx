@@ -20,6 +20,11 @@ interface HomeProps {
   setCategoryInput: (value: string) => void;
   isModalOpen: boolean;
   setIsModalOpen: (value: boolean) => void;
+  liveProductData: ProductRequestsProps[];
+  plannedData: ProductRequestsProps[];
+  inProgressData: ProductRequestsProps[];
+  handleSortNav: (value: string) => void
+
 }
 
 export default function Home(props: HomeProps) {
@@ -37,11 +42,21 @@ export default function Home(props: HomeProps) {
     setTitleInput,
     isModalOpen,
     setIsModalOpen,
+    inProgressData,
+    liveProductData,
+    plannedData,
+    handleSortNav
   } = props;
   const navigate = useNavigate();
   return (
     <section className="max-w-[1100px] gap-x-[20px]  mx-auto py-32 flex">
-      <NavHeaderLeft />
+      <NavHeaderLeft
+      handleSortNav={handleSortNav}
+        plannedData={plannedData}
+        inProgressData={inProgressData}
+        liveProductData={liveProductData}
+        productData={productData}
+      />
 
       <div className="max-w-[855px] mx-auto  w-full">
         <button onClick={() => setIsModalOpen(true)}>+ Add Feedback</button>
